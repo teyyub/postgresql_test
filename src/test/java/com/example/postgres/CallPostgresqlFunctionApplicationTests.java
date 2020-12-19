@@ -50,4 +50,12 @@ class CallPostgresqlFunctionApplicationTests {
         List<Person> t = personServices.personByParam("azer","ekberli",null);
         assertEquals(t.size(),1);
     }
+
+
+    @Test
+    void testByNameHibernate(){
+        List<Person> t = personServices.personByParamHibernate("azer",null,null);
+        assertEquals(3,t.size());
+    }
+
 }
