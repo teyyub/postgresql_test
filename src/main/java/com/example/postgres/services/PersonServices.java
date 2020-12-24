@@ -20,10 +20,18 @@ import javax.persistence.criteria.Root;
 
 @Service
 public class PersonServices {
+
+//    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private PersonRepository personRepository;
-    @PersistenceContext
-    private EntityManager em;
+
+    @Autowired
+    public PersonServices(EntityManager em){
+        this.em = em;
+
+    }
 
     public List<Person> personByParam(String name, String surname, String father){
         List<Person> persons= new ArrayList<>();
@@ -35,7 +43,16 @@ public class PersonServices {
     }
 
 
-    public List<Person> personByParamHibernate(String name, String surname, String father){
+    public List<Person> personByParamHibernate(String name, String surname, String father) {
+        List<PersonEntity> e = test(name,surname,father);
+        List<Person> persons= new ArrayList<>();
+
+        return persons;
+    }
+
+    private List<PersonEntity> test(String name, String surname, String father){
+//        @PersistenceContext
+//         EntityManager em;
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<PersonEntity> cr = cb.createQuery(PersonEntity.class);
 
@@ -50,22 +67,25 @@ public class PersonServices {
 
         System.out.println("bazadan gelen deyer " +query.getResultList().size());
 
-        List<Person> persons= new ArrayList<>();
+        List<PersonEntity> result = query.getResultList();
+
 //        try {
 //            persons =personRepository.personByParam(name, surname, father);
 //        }catch (Exception e){}
 
 //        return persons;
-         for(PersonEntity p1  : query.getResultList())   {
-             System.out.println("cap et " + p1.toString());
-//             Person p = new Person();
-//             p.setId(p1.getId());
-//             p.setName(p1.getName());
-//             p.setSurname(p1.getSurname());
-//             p.setFather(p1.getFather());
-//             persons.add(p);
-         }
-        return persons;
-    }
+//        for(PersonEntity p1  : query.getResultList())   {
+//            System.out.println("cap et " + p1.toString());
+////             Person p = new Person();
+////             p.setId(p1.getId());
+////             p.setName(p1.getName());
+////             p.setSurname(p1.getSurname());
+////             p.setFather(p1.getFather());
+////             persons.add(p);
+//        }
+        return query.getResultList();
+//    }
+
+}
 
 }
